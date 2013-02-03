@@ -219,5 +219,24 @@ function from_timestamp {
     date --date=@$1
 }
 
+function unquarentine {
+  find . -type f -print0 | xargs -0 xattr -d com.apple.quarantine
+}
+
+function clear_zsh_history {
+    ## Script to accumulate unique .zsh_history entries in ~/.allhistory
+    (cat $HOME/.zsh_history | sed -e 's/[^;]*;//' && cat $HOME/.allhistory) | sort | uniq >   $HOME/.allhistory.new
+    rm $HOME/.allhistory
+    mv $HOME/.allhistory.new $HOME/.allhistory
+}
+
+function activate_tunlr_osx {
+  sudo networksetup -setdnsservers Wi-Fi 184.82.222.5, 199.167.30.144
+}
+
+function deactivate_tunlr_osx {
+  sudo networksetup -setdnsservers Wi-Fi 208.67.222.22, 8.8.8.8, 8.8.4.4
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias pacman=pacman-color
