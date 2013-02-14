@@ -238,5 +238,9 @@ function deactivate_tunlr_osx {
   sudo networksetup -setdnsservers Wi-Fi 208.67.222.22, 8.8.8.8, 8.8.4.4
 }
 
+function unswap {
+  sudo swapoff -a && sudo swapon -a
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias pacman=pacman-color
