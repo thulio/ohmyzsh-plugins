@@ -206,7 +206,8 @@ function clone_site {
 }
 
 function fix_pip {
- curl http://python-distribute.org/distribute_setup.py | python
+    curl http://python-distribute.org/distribute_setup.py | python
+    rm distribute-*.tar.gz
 }
 
 
