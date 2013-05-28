@@ -193,16 +193,7 @@ function indent {
 
 function clone_site {
  # Usage: clone_site domains_to_keep url
- wget \
-     --recursive \
-     --no-clobber \
-     --page-requisites \
-     --html-extension \
-     --convert-links \
-     --restrict-file-names=windows \
-     --no-parent \
-     --domains $1 \
-     $2
+ wget --mirror --convert-links -w 4 $1
 }
 
 function fix_pip {
