@@ -1,4 +1,3 @@
-alias bp="bpython2"
 function git-svn-diff {
     # git-svn-diff
     # Generate an SVN-compatible diff against the tip of the tracking branch
@@ -67,16 +66,6 @@ function proxy-wrapper {
     nc -x127.0.0.1:8080 -X5 $*
 }
 
-function buildPython3k {
-    echo "Building Python 3K";
-    echo $(pwd)
-    mkdir -p build;
-    cd build;
-    ../configure --with-pydebug --prefix=/dev/null
-    make -j8 -l4
-    echo Finished!
-}
-
 function addToPythonPath {
     if [ -n $1 ]; then
         export PYTHONPATH=$1:$PYTHONPATH
@@ -100,7 +89,6 @@ function update_vim () {
     done
     cd $HOME
 }
-
 
 function ssh-append-key {
     cat ~/.ssh/id_rsa.pub | ssh $1@$2 'cat >> .ssh/authorized_keys'
@@ -201,11 +189,9 @@ function fix_pip {
     rm distribute-*.tar.gz
 }
 
-
 function xgh {
     curl -s 'http://xgh.herokuapp.com/' | sed -e 's/<p><b>//' -e 's/<\/b><\/p>//' | grep '^[0-9]' | sort -R | head -n 1
 }
-
 
 function from_timestamp {
     date --date=@$1
@@ -233,7 +219,6 @@ function deactivate_tunlr_osx {
 function unswap {
   sudo swapoff -a && sudo swapon -a
 }
-
 
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
