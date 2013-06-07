@@ -131,7 +131,7 @@ function pip_update {
 }
 
 function dpkg-clean {
-    dpkg -l | grep ^rc | cut -d' ' -f 3 | xargs -r sudo dpkg --purge 
+    dpkg -l | grep ^rc | cut -d' ' -f 3 | xargs -r sudo dpkg --purge
 }
 
 maiores () {
@@ -149,10 +149,10 @@ function setdsm() {
     # sets DJANGO_SETTINGS_MODULE
     export PYTHONPATH=$PYTHONPATH:$PWD/..
     export PYTHONPATH=$PYTHONPATH:$PWD
-    if [ -z "$1" ]; then 
+    if [ -z "$1" ]; then
         x=${PWD/\/[^\/]*\/}
         export DJANGO_SETTINGS_MODULE=$x.settings
-    else    
+    else
         export DJANGO_SETTINGS_MODULE=$1
     fi
 
@@ -234,13 +234,11 @@ function unswap {
   sudo swapoff -a && sudo swapon -a
 }
 
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
-alias pacman=pacman-color
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config /usr/local/Cellar/mongodb/$(mongo --version | cut -d":" -f 2 | cut -d " " -f 2)-x86_64/mongod.conf"
-alias vim="mvim -vf"
 alias pinstall="pip install -M"
 alias ssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ServerAliveInterval=120"
 alias ll='ls -lh'
-alias hk="heroku"
 alias m0="mplayer -idx -volume 0"
