@@ -227,4 +227,4 @@ alias pinstall="pip install -M"
 alias ssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ServerAliveInterval=120"
 alias ll='ls -lh'
 alias m0="mplayer -idx -volume 0"
-alias shit_done="git log --author=$USER --format="- %B" --since=-30days --reverse"
+alias shit_done="git log --author=$USER --format="-%B" --since=-30days --reverse"
