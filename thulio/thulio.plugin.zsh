@@ -228,3 +228,8 @@ alias ssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o Se
 alias ll='ls -lh'
 alias m0="mplayer -idx -volume 0"
 alias shit_done="git log --author=$USER --format="-%B" --since=-30days --reverse"
+# Simulate OSX's pbcopy and pbpaste on other platforms
+if [ ! $(uname -s) = "Darwin" ]; then
+    alias pbcopy='xsel --clipboard --input'
+    alias pbpaste='xsel --clipboard --output'
+fi
