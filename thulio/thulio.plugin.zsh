@@ -175,7 +175,7 @@ function get_swap {
     echo "Overall swap used: $OVERALL"
 }
 
-function indent {
+function xindent {
     xmlindent -f -nbe $*
 }
 
