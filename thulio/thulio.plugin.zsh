@@ -220,6 +220,19 @@ function unswap {
   sudo swapoff -a && sudo swapon -a
 }
 
+
+function flip_the_table {
+cat <<EOF
+(╯°□°）╯︵ ┻━┻
+EOF
+}
+
+function chillout {
+cat <<EOF
+┬─┬ノ( º _ ºノ)
+EOF
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config /usr/local/Cellar/mongodb/$(mongo --version | cut -d":" -f 2 | cut -d " " -f 2)-x86_64/mongod.conf"
