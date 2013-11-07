@@ -148,7 +148,7 @@ function setdsm() {
 }
 
 function activate_tunlr {
-    echo "nameserver 184.82.222.5\nnameserver 199.167.30.144" | sudo tee  /etc/resolv.conf > /dev/null
+    echo "nameserver 69.197.169.9\nnameserver 192.95.16.109" | sudo tee  /etc/resolv.conf > /dev/null
 }
 
 function deactivate_tunlr {
