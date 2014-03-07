@@ -235,7 +235,7 @@ EOF
 
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
-alias start-mongodb="mongod run --config /usr/local/Cellar/mongodb/$(mongo --version | cut -d":" -f 2 | cut -d " " -f 2)-x86_64/mongod.conf"
+alias start-mongodb="mongod run --config /usr/local/Cellar/mongodb/$(mongo --version | cut -d":" -f 2 | cut -d " " -f 2)/mongod.conf"
 alias pinstall="pip install -M"
 alias ssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ServerAliveInterval=120"
 alias ll='ls -lh'
