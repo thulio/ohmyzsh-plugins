@@ -74,7 +74,7 @@ function addToPythonPath {
 
 function update_github () {
     cd $HOME/projects/github/
-    for i in `ls --color=never`
+    for i in *
     do
         echo 'Updating' $i && cd $i && git pull && cd -
     done
