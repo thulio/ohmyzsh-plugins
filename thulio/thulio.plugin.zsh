@@ -233,6 +233,14 @@ cat <<EOF
 EOF
 }
 
+function connect_to_remote_docker {
+  if [ "$#" -ne 4 ]; then
+    echo "Usage: connect_to_remote_docker HOST_USER HOST_IP CONTAINER_USER CONTAINER_IP"
+  else
+    ssh -o ProxyCommand="ssh  $1@$2  nc %h %p" $3@$4
+  fi
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config /usr/local/Cellar/mongodb/$(mongo --version | cut -d":" -f 2 | cut -d " " -f 2)/mongod.conf"
