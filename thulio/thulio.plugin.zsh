@@ -83,7 +83,7 @@ function update_github () {
 
 function update_vim () {
     cd $HOME/.vim/bundle/
-    for i in `ls --color=never`
+    for i in *
     do
         echo 'Updating' $i && cd $i && git pull && cd -
     done
