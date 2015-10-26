@@ -76,7 +76,7 @@ function update_github () {
     cd $HOME/projects/github/
     for i in *
     do
-        echo 'Updating' $i && cd $i && git pull && cd -
+        echo 'Updating' $i && cd $i && git up && cd -
     done
     cd $HOME
 }
@@ -85,7 +85,7 @@ function update_vim () {
     cd $HOME/.vim/bundle/
     for i in *
     do
-        echo 'Updating' $i && cd $i && git pull && cd -
+        echo 'Updating' $i && cd $i && git up && cd -
     done
     cd $HOME
 }
