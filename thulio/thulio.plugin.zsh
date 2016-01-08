@@ -241,6 +241,15 @@ function connect_to_remote_docker {
   fi
 }
 
+function create_checksums {
+  for i in *; do sha1sum "$i" >> sha1sums.txt; done && sha1sum -c sha1sums.txt
+}
+
+function sha2sum {
+	sha2 -q "$1" | (grep -q -f /dev/stdin "$2" && echo "OK") ||  echo "Mismatch"
+}
+
+
 function start_docker {
 	docker-machine start default
 
