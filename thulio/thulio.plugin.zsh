@@ -241,6 +241,12 @@ function connect_to_remote_docker {
   fi
 }
 
+function start_docker {
+	docker-machine start default
+
+	eval "$(docker-machine env default)" > /dev/null
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
