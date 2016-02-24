@@ -249,11 +249,18 @@ function sha2sum {
 	sha2 -q "$1" | (grep -q -f /dev/stdin "$2" && echo "OK") ||  echo "Mismatch"
 }
 
-
 function start_docker {
 	docker-machine start default
 
 	eval "$(docker-machine env default)" > /dev/null
+}
+
+function clear_docker_images {
+    docker images -qf dangling=true | xargs -r docker rmi
+}
+
+function docker_update_images {
+    docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -r -n 1 docker pull
 }
 
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
