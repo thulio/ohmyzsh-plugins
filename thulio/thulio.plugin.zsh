@@ -1,3 +1,11 @@
+function is_osx {
+    if [[ $(uname -s) -eq "Darwin" ]]; then
+        return 1;
+    else
+        return 0;
+    fi
+}
+
 function git-svn-diff {
     # git-svn-diff
     # Generate an SVN-compatible diff against the tip of the tracking branch
@@ -249,18 +257,27 @@ function sha2sum {
 	sha2 -q "$1" | (grep -q -f /dev/stdin "$2" && echo "OK") ||  echo "Mismatch"
 }
 
-function start_docker {
-	docker-machine start default
-
-	eval "$(docker-machine env default)" > /dev/null
+function start-docker {
+    if [[ is_osx -eq 0 ]]; then
+        docker-machine start default > /dev/null
+        eval "$(docker-machine env default)" > /dev/null
+    fi
 }
 
-function clear_docker_images {
-    docker images -qf dangling=true | xargs -r docker rmi
+function docker_clear_images {
+    if [[ is_osx -eq 0 ]]; then
+        docker images -qf dangling=true | xargs docker rmi
+    else
+        docker images -qf dangling=true | xargs -r docker rmi
+    fi
 }
 
 function docker_update_images {
-    docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -r -n 1 docker pull
+    if [[ is_osx -eq 0 ]]; then
+        docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -n 1 docker pull
+    else
+        docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -r -n 1 docker pull
+    fi
 }
 
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
@@ -273,7 +290,7 @@ alias ll='ls -lh'
 alias m0="mplayer -idx -volume 0"
 alias shit_done="git log --author=$USER --format="-%B" --since=-30days --reverse"
 # Simulate OSX's pbcopy and pbpaste on other platforms
-if [ ! $(uname -s) = "Darwin" ]; then
+if [[ is_osx -eq 1 ]]; then
     alias pbcopy='xsel --clipboard --input'
     alias pbpaste='xsel --clipboard --output'
 fi
