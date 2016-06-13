@@ -103,7 +103,11 @@ function ssh-append-key {
 }
 
 function setup-tunnel {
-    ssh -C2qTnN -D 8080 $1
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -C2qTnN -D 8080 $1
+}
+
+function setup-proxy {
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -C2qTnN -L 8080:127.0.0.1:3128 $1
 }
 
 function parse_git_branch {
