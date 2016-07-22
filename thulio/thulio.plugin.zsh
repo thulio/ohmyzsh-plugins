@@ -103,7 +103,7 @@ function ssh-append-key {
 }
 
 function setup-tunnel {
-    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -C2qTnN -D 8080 $1
+    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -C2qTnN -D 8080 $1 -p ${2:-22}
 }
 
 function setup-proxy {
