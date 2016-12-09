@@ -245,6 +245,18 @@ cat <<EOF
 EOF
 }
 
+function shrugs {
+cat <<EOF
+¯\_(ツ)_/¯
+EOF
+}
+
+function lenny {
+cat <<EOF
+( ͡° ͜ʖ ͡°)
+EOF
+}
+
 function connect_to_remote_docker {
   if [ "$#" -ne 4 ]; then
     echo "Usage: connect_to_remote_docker HOST_USER HOST_IP CONTAINER_USER CONTAINER_IP"
