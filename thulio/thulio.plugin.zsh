@@ -90,12 +90,7 @@ function update_github () {
 }
 
 function update_vim () {
-    cd $HOME/.vim/bundle/
-    for i in *
-    do
-        echo 'Updating' $i && cd $i && git up && cd -
-    done
-    cd $HOME
+    vim -i NONE -c VundleUpdate -c quitall
 }
 
 function ssh-append-key {
