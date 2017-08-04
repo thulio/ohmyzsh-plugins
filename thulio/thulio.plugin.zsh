@@ -90,7 +90,9 @@ function update_github () {
 }
 
 function update_vim () {
-    vim -i NONE -c VundleUpdate -c quitall
+    vim -i NONE -c BundleUpdate -c quitall
+    nvim -i NONE -c BundleUpdate -c quital
+
 }
 
 function ssh-append-key {
