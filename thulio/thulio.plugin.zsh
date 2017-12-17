@@ -156,14 +156,6 @@ function setdsm() {
     echo "DJANGO_SETTINGS_MODULE set to $DJANGO_SETTINGS_MODULE"
 }
 
-function activate_tunlr {
-    echo "nameserver 69.197.169.9\nnameserver 192.95.16.109" | sudo tee  /etc/resolv.conf > /dev/null
-}
-
-function deactivate_tunlr {
-    echo "nameserver 8.8.8.8\nnameserver 8.8.4.4" | sudo tee  /etc/resolv.conf > /dev/null
-}
-
 function get_swap {
     # Get current swap usage for all running processes
     # Erik Ljungstrom 27/05/2011
@@ -198,10 +190,6 @@ function fix_pip {
     rm distribute-*.tar.gz
 }
 
-function xgh {
-    curl -s 'http://xgh.herokuapp.com/' | sed -e 's/<p><b>//' -e 's/<\/b><\/p>//' | grep '^[0-9]' | sort -R | head -n 1
-}
-
 function from_timestamp {
     date --date=@$1
 }
@@ -217,18 +205,10 @@ function clear_zsh_history {
     mv $HOME/.allhistory.new $HOME/.allhistory
 }
 
-function activate_tunlr_osx {
-  sudo networksetup -setdnsservers Wi-Fi 184.82.222.5, 199.167.30.144
-}
-
-function deactivate_tunlr_osx {
-  sudo networksetup -setdnsservers Wi-Fi 208.67.222.22, 8.8.8.8, 8.8.4.4
-}
 
 function unswap {
   sudo swapoff -a && sudo swapon -a
 }
-
 
 function flip_the_table {
 cat <<EOF
@@ -268,21 +248,6 @@ function create_checksums {
 
 function sha2sum {
 	sha2 -q "$1" | (grep -q -f /dev/stdin "$2" && echo "OK") ||  echo "Mismatch"
-}
-
-function start-docker {
-    if [[ is_osx -eq 0 ]]; then
-        docker-machine start default > /dev/null
-        eval "$(docker-machine env default)" > /dev/null
-    fi
-}
-
-function docker_clear_images {
-    if [[ is_osx -eq 0 ]]; then
-        docker images -qf dangling=true | xargs docker rmi
-    else
-        docker images -qf dangling=true | xargs -r docker rmi
-    fi
 }
 
 function docker_update_images {
