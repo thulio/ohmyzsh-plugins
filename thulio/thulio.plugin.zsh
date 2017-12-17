@@ -298,6 +298,12 @@ function pyclean {
 	find . -type d -name "__pycache__" -delete
 }
 
+function dash {
+    if [[ is_osx -eq 0 ]]; then
+        open dash://${1}:${2}
+    fi
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
