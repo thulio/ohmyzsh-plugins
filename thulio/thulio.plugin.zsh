@@ -1,11 +1,3 @@
-function is_osx {
-    if [[ $(uname -s) -eq "Darwin" ]]; then
-        return 1;
-    else
-        return 0;
-    fi
-}
-
 function git-svn-diff {
     # git-svn-diff
     # Generate an SVN-compatible diff against the tip of the tracking branch
@@ -251,7 +243,7 @@ function sha2sum {
 }
 
 function docker_update_images {
-    if [[ is_osx -eq 0 ]]; then
+    if [[ $(uname -s) -eq "Darwin" ]]; then
         docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -n 1 docker pull
     else
         docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -r -n 1 docker pull
@@ -264,7 +256,7 @@ function pyclean {
 }
 
 function dash {
-    if [[ is_osx -eq 0 ]]; then
+    if [ "$(uname -s)" = "Linux" ] ; then
         open dash://${1}:${2}
     fi
 }
@@ -278,8 +270,8 @@ alias ssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o Se
 alias ll='ls -lh'
 alias m0="mplayer -idx -volume 0"
 alias shit_done="git log --author=$USER --format="-%B" --since=-30days --reverse"
-# Simulate OSX's pbcopy and pbpaste on other platforms
-if [[ is_osx -eq 1 ]]; then
+if [ "$(uname -s)" = "Linux" ] ; then
+    # Simulate OSX's pbcopy and pbpaste on other platforms
     alias pbcopy='xsel --clipboard --input'
     alias pbpaste='xsel --clipboard --output'
     alias charge_iphone='sudo usbmuxd -u -U usbmux'
