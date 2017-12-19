@@ -282,4 +282,5 @@ alias shit_done="git log --author=$USER --format="-%B" --since=-30days --reverse
 if [[ is_osx -eq 1 ]]; then
     alias pbcopy='xsel --clipboard --input'
     alias pbpaste='xsel --clipboard --output'
+    alias charge_iphone='sudo usbmuxd -u -U usbmux'
 fi
