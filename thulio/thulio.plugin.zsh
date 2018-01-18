@@ -281,3 +281,4 @@ alias mix_format="ASDF_ELIXIR_VERSION=1.6.0 mix format"
 alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | ASDF_ELIXIR_VERSION=1.6.0 xargs mix format"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
+
