@@ -277,7 +277,7 @@ if [ "$(uname -s)" = "Linux" ] ; then
     alias charge_iphone='sudo usbmuxd -u -U usbmux'
 fi
 
-alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | egrep '.ex|.exs|.eex' | ASDF_ELIXIR_VERSION=1.6.0 xargs mix format"
+alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | egrep '.ex|.exs|.eex' | xargs mix format"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
 
