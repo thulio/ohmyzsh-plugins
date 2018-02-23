@@ -4,9 +4,9 @@ function git-svn-diff {
     TRACKING_BRANCH=`git config --get svn-remote.svn.fetch | sed -e 's/.*:refs\/remotes\///'`
     REV=`git svn find-rev $(git rev-list --date-order --max-count=1 $TRACKING_BRANCH)`
     git diff --no-prefix $(git rev-list --date-order --max-count=1 $TRACKING_BRANCH) $* |
-    sed -e "s/^+++ .*/&	(working copy)/" -e "s/^--- .*/&	(revision $REV)/" \
-    -e "s/^diff --git [^[:space:]]*/Index:/" \
-    -e "s/^index.*/===================================================================/"
+        sed -e "s/^+++ .*/&	(working copy)/" -e "s/^--- .*/&	(revision $REV)/" \
+            -e "s/^diff --git [^[:space:]]*/Index:/" \
+            -e "s/^index.*/===================================================================/"
 }
 
 function git-svn-up {
@@ -43,18 +43,18 @@ function svn_missing()
 
 function kde_astyle {
     astyle --indent=spaces=4 --brackets=linux \
-       --indent-labels --pad=oper --unpad=paren \
-       --one-line=keep-statements --convert-tabs \
-       --indent-preprocessor $*
+           --indent-labels --pad=oper --unpad=paren \
+           --one-line=keep-statements --convert-tabs \
+           --indent-preprocessor $*
 
 }
 
 function mp4_to_mp3 {
     for i in *.mp4; do
-      faad "$i"
-      x=`echo "$i"|sed  -e 's/.mp4/.wav/'`
-      y=`echo "$i"|sed  -e 's/.mp4/.mp3/'`
-      lame -h -b 256 "$x" "$y"
+        faad "$i"
+        x=`echo "$i"|sed  -e 's/.mp4/.wav/'`
+        y=`echo "$i"|sed  -e 's/.mp4/.mp3/'`
+        lame -h -b 256 "$x" "$y"
     done
 }
 
@@ -100,23 +100,23 @@ function setup-proxy {
 }
 
 function parse_git_branch {
-  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
 }
 
 function parse_svn_branch {
-  parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk -F / '{print "(svn::"$1 "/" $2 ")"}'
+    parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk -F / '{print "(svn::"$1 "/" $2 ")"}'
 }
 
 function parse_svn_url {
-  svn info 2>/dev/null | grep -e '^URL*' | sed -e 's#^URL: *\(.*\)#\1#g '
+    svn info 2>/dev/null | grep -e '^URL*' | sed -e 's#^URL: *\(.*\)#\1#g '
 }
 
 function parse_svn_repository_root() {
-  svn info 2>/dev/null | grep -e '^Repository Root:*' | sed -e 's#^Repository Root: *\(.*\)#\1\/#g '
+    svn info 2>/dev/null | grep -e '^Repository Root:*' | sed -e 's#^Repository Root: *\(.*\)#\1\/#g '
 }
 
 function pip_update {
-  pip freeze -l | cut -d'=' -f 1 | xargs pip install -U
+    pip freeze -l | cut -d'=' -f 1 | xargs pip install -U
 }
 
 function dpkg-clean {
@@ -154,17 +154,17 @@ function get_swap {
     SUM=0
     OVERALL=0
     for DIR in `find /proc/ -maxdepth 1 -type d | egrep "^/proc/[0-9]"` ; do
-      PID=`echo $DIR | cut -d / -f 3`
-      PROGNAME=`ps -p $PID -o comm --no-headers`
-      for SWAP in `grep Swap $DIR/smaps 2>/dev/null| awk '{ print $2 }'`
+        PID=`echo $DIR | cut -d / -f 3`
+        PROGNAME=`ps -p $PID -o comm --no-headers`
+        for SWAP in `grep Swap $DIR/smaps 2>/dev/null| awk '{ print $2 }'`
         do
-          let SUM=$SUM+$SWAP
+            let SUM=$SUM+$SWAP
         done
         echo "PID=$PID - Swap used: $SUM - ($PROGNAME )"
         let OVERALL=$OVERALL+$SUM
         SUM=0
 
-      done
+    done
     echo "Overall swap used: $OVERALL"
 }
 
@@ -173,8 +173,8 @@ function xindent {
 }
 
 function clone_site {
- # Usage: clone_site domains_to_keep url
- wget --mirror --convert-links -w 4 $1
+    # Usage: clone_site domains_to_keep url
+    wget --mirror --convert-links -w 4 $1
 }
 
 function fix_pip {
@@ -187,7 +187,7 @@ function from_timestamp {
 }
 
 function unquarentine {
-  find . -type f -print0 | xargs -0 xattr -d com.apple.quarantine
+    find . -type f -print0 | xargs -0 xattr -d com.apple.quarantine
 }
 
 function clear_zsh_history {
@@ -199,47 +199,47 @@ function clear_zsh_history {
 
 
 function unswap {
-  sudo swapoff -a && sudo swapon -a
+    sudo swapoff -a && sudo swapon -a
 }
 
 function flip_the_table {
-cat <<EOF
+    cat <<EOF
 (╯°□°）╯︵ ┻━┻
 EOF
 }
 
 function chillout {
-cat <<EOF
+    cat <<EOF
 ┬─┬ノ( º _ ºノ)
 EOF
 }
 
 function shrugs {
-cat <<EOF
+    cat <<EOF
 ¯\_(ツ)_/¯
 EOF
 }
 
 function lenny {
-cat <<EOF
+    cat <<EOF
 ( ͡° ͜ʖ ͡°)
 EOF
 }
 
 function connect_to_remote_docker {
-  if [ "$#" -ne 4 ]; then
-    echo "Usage: connect_to_remote_docker HOST_USER HOST_IP CONTAINER_USER CONTAINER_IP"
-  else
-    ssh -o ProxyCommand="ssh  $1@$2  nc %h %p" $3@$4
-  fi
+    if [ "$#" -ne 4 ]; then
+        echo "Usage: connect_to_remote_docker HOST_USER HOST_IP CONTAINER_USER CONTAINER_IP"
+    else
+        ssh -o ProxyCommand="ssh  $1@$2  nc %h %p" $3@$4
+    fi
 }
 
 function create_checksums {
-  for i in *; do sha1sum "$i" >> sha1sums.txt; done && sha1sum -c sha1sums.txt
+    for i in *; do sha1sum "$i" >> sha1sums.txt; done && sha1sum -c sha1sums.txt
 }
 
 function sha2sum {
-	sha2 -q "$1" | (grep -q -f /dev/stdin "$2" && echo "OK") ||  echo "Mismatch"
+    sha2 -q "$1" | (grep -q -f /dev/stdin "$2" && echo "OK") ||  echo "Mismatch"
 }
 
 function docker_update_images {
@@ -251,14 +251,19 @@ function docker_update_images {
 }
 
 function pyclean {
-	find . -type f -name "*.py[co]" -delete
-	find . -type d -name "__pycache__" -delete
+    find . -type f -name "*.py[co]" -delete
+    find . -type d -name "__pycache__" -delete
 }
 
 function dash {
     if [ "$(uname -s)" = "Linux" ] ; then
         open dash://${1}:${2}
     fi
+}
+
+function setgov ()
+{
+    echo "$1" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 }
 
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
@@ -280,4 +285,3 @@ fi
 alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | egrep '.ex|.exs|.eex' | xargs mix format"
 
 export ERL_AFLAGS="-kernel shell_history enabled"
-
