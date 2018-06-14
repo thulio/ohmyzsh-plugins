@@ -266,6 +266,10 @@ function setgov ()
     echo "$1" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
 }
 
+function fix_elixir_umbrella {
+    for app in $(ls apps); do cd "apps/$app" && ln -sf ../../_build . && cd - ; done
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
