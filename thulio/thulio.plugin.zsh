@@ -294,6 +294,10 @@ function uuid() {
     printf '\n'
 }
 
+function render_md() {
+    pandoc $1 | lynx -stdin
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
