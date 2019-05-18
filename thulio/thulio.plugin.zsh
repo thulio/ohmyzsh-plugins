@@ -316,4 +316,4 @@ fi
 
 alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | egrep '.ex|.exs|.eex' | xargs mix format"
 
-export ERL_AFLAGS="-kernel shell_history enabled"
+export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
