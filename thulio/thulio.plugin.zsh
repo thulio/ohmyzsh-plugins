@@ -298,6 +298,19 @@ function render_md() {
     pandoc $1 | lynx -stdin
 }
 
+
+function tcr-elixir() {
+    mix test && git commit -am working || git reset --hard
+}
+
+function tcr-pipenv() {
+    pipenv run pytest && git commit -am working || git reset --hard
+}
+
+function tcr-make() {
+    make test && git commit -am working || git reset --hard
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
