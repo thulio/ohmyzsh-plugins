@@ -82,8 +82,7 @@ function update_github () {
 }
 
 function update_vim () {
-    vim -i NONE -c BundleUpdate -c quitall
-    nvim -i NONE -c BundleUpdate -c quital
+    nvim -i NONE -c PlugUpdate -c quital
 
 }
 
