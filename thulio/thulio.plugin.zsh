@@ -1,77 +1,3 @@
-function git-svn-diff {
-    # git-svn-diff
-    # Generate an SVN-compatible diff against the tip of the tracking branch
-    TRACKING_BRANCH=`git config --get svn-remote.svn.fetch | sed -e 's/.*:refs\/remotes\///'`
-    REV=`git svn find-rev $(git rev-list --date-order --max-count=1 $TRACKING_BRANCH)`
-    git diff --no-prefix $(git rev-list --date-order --max-count=1 $TRACKING_BRANCH) $* |
-        sed -e "s/^+++ .*/&	(working copy)/" -e "s/^--- .*/&	(revision $REV)/" \
-            -e "s/^diff --git [^[:space:]]*/Index:/" \
-            -e "s/^index.*/===================================================================/"
-}
-
-function git-svn-up {
-    branch=`git branch 2>/dev/null  | grep \* | sed -e 's/\*//' -e 's/\s*//'`
-    echo "Current branch: $branch"
-    echo "Stashing changes";
-    git stash clear;
-    git stash;
-    echo "Pulling from master";
-    git checkout master && git svn fetch && git svn rebase
-    git checkout $branch && git rebase master && git stash apply
-}
-
-function pipe-tar {
-    tar --exclude-vcs -zcf - $1 | cat | tar -zxf - -C $2 && sync
-}
-
-function svn_mod {
-    svn status | grep "^M\|^D\|^!" |  cut -d' ' -f 8
-}
-
-function svn_cleanup {
-    for i in $(svn stat | grep ^? | cut -d' ' -f8); do rm -rf $i; done
-}
-
-function svn_diff {
-    svn diff | vim -
-}
-
-function svn_missing()
-{
-    svn --no-ignore status | grep "^?\|^I" | cut -d' ' -f 8
-}
-
-function kde_astyle {
-    astyle --indent=spaces=4 --brackets=linux \
-           --indent-labels --pad=oper --unpad=paren \
-           --one-line=keep-statements --convert-tabs \
-           --indent-preprocessor $*
-
-}
-
-function mp4_to_mp3 {
-    for i in *.mp4; do
-        faad "$i"
-        x=`echo "$i"|sed  -e 's/.mp4/.wav/'`
-        y=`echo "$i"|sed  -e 's/.mp4/.mp3/'`
-        lame -h -b 256 "$x" "$y"
-    done
-}
-
-function qtinstall {
-    ./configure --prefix=/opt/qt-4.7 --opensource --confirm-license -nomake demos -nomake examples -nomake docs -no-rpath -silent -optimized-qmake  -qt-sql-sqlite -qt-sql-sqlite -qt3support
-}
-
-function proxy-wrapper {
-    nc -x127.0.0.1:8080 -X5 $*
-}
-
-function addToPythonPath {
-    if [ -n $1 ]; then
-        export PYTHONPATH=$1:$PYTHONPATH
-    fi
-}
-
 function update_github () {
     cd $HOME/projects/github/
     for i in *
@@ -102,26 +28,6 @@ function parse_git_branch {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
 }
 
-function parse_svn_branch {
-    parse_svn_url | sed -e 's#^'"$(parse_svn_repository_root)"'##g' | awk -F / '{print "(svn::"$1 "/" $2 ")"}'
-}
-
-function parse_svn_url {
-    svn info 2>/dev/null | grep -e '^URL*' | sed -e 's#^URL: *\(.*\)#\1#g '
-}
-
-function parse_svn_repository_root() {
-    svn info 2>/dev/null | grep -e '^Repository Root:*' | sed -e 's#^Repository Root: *\(.*\)#\1\/#g '
-}
-
-function pip_update {
-    pip freeze -l | cut -d'=' -f 1 | xargs pip install -U
-}
-
-function dpkg-clean {
-    dpkg -l | grep ^rc | cut -d' ' -f 3 | xargs -r sudo dpkg --purge
-}
-
 maiores () {
     echo $
     if [ 'x'$1 = 'x' ]
@@ -132,41 +38,6 @@ maiores () {
     fi
 }
 
-function setdsm() {
-    # add the current directory and the parent directory to PYTHONPATH
-    # sets DJANGO_SETTINGS_MODULE
-    export PYTHONPATH=$PYTHONPATH:$PWD/..
-    export PYTHONPATH=$PYTHONPATH:$PWD
-    if [ -z "$1" ]; then
-        x=${PWD/\/[^\/]*\/}
-        export DJANGO_SETTINGS_MODULE=$x.settings
-    else
-        export DJANGO_SETTINGS_MODULE=$1
-    fi
-
-    echo "DJANGO_SETTINGS_MODULE set to $DJANGO_SETTINGS_MODULE"
-}
-
-function get_swap {
-    # Get current swap usage for all running processes
-    # Erik Ljungstrom 27/05/2011
-    SUM=0
-    OVERALL=0
-    for DIR in `find /proc/ -maxdepth 1 -type d | egrep "^/proc/[0-9]"` ; do
-        PID=`echo $DIR | cut -d / -f 3`
-        PROGNAME=`ps -p $PID -o comm --no-headers`
-        for SWAP in `grep Swap $DIR/smaps 2>/dev/null| awk '{ print $2 }'`
-        do
-            let SUM=$SUM+$SWAP
-        done
-        echo "PID=$PID - Swap used: $SUM - ($PROGNAME )"
-        let OVERALL=$OVERALL+$SUM
-        SUM=0
-
-    done
-    echo "Overall swap used: $OVERALL"
-}
-
 function xindent {
     xmlindent -f -nbe $*
 }
@@ -174,11 +45,6 @@ function xindent {
 function clone_site {
     # Usage: clone_site domains_to_keep url
     wget --mirror --convert-links -w 4 $1
-}
-
-function fix_pip {
-    curl http://python-distribute.org/distribute_setup.py | python
-    rm distribute-*.tar.gz
 }
 
 function from_timestamp {
@@ -195,7 +61,6 @@ function clear_zsh_history {
     rm $HOME/.allhistory
     mv $HOME/.allhistory.new $HOME/.allhistory
 }
-
 
 function unswap {
     sudo swapoff -a && sudo swapon -a
@@ -237,10 +102,6 @@ function create_checksums {
     for i in *; do sha1sum "$i" >> sha1sums.txt; done && sha1sum -c sha1sums.txt
 }
 
-function sha2sum {
-    sha2 -q "$1" | (grep -q -f /dev/stdin "$2" && echo "OK") ||  echo "Mismatch"
-}
-
 function docker_update_images {
     if [[ $(uname -s) -eq "Darwin" ]]; then
         docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -n 1 docker pull
@@ -254,17 +115,6 @@ function pyclean {
     find . -type d -name "__pycache__" -delete
 }
 
-function dash {
-    if [ "$(uname -s)" = "Linux" ] ; then
-        open dash://${1}:${2}
-    fi
-}
-
-function setgov ()
-{
-    echo "$1" | sudo tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
-}
-
 function fix_elixir_umbrella {
     for app in $(ls apps); do cd "apps/$app" && ln -sf ../../_build . && cd - ; done
 }
@@ -272,11 +122,6 @@ function fix_elixir_umbrella {
 function uuid() {
     uuidgen | awk '{print tolower($0)}'
 }
-
-function render_md() {
-    pandoc $1 | lynx -stdin
-}
-
 
 function tcr-elixir() {
     mix test && git commit -am working || git reset --hard
