@@ -135,6 +135,11 @@ function tcr-make() {
     make test && git commit -am working || git reset --hard
 }
 
+function clean_docker() {
+    docker system prune -f --volumes
+    docker run --rm --privileged --pid=host justincormack/nsenter1 /sbin/fstrim /var/lib/docker
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
