@@ -140,6 +140,10 @@ function clean_docker() {
     docker run --rm --privileged --pid=host justincormack/nsenter1 /sbin/fstrim /var/lib/docker
 }
 
+function erlang_version() {
+    erl -eval '{ok, Version} = file:read_file(filename:join([code:root_dir(), "releases", erlang:system_info(otp_release), "OTP_VERSION"])), io:fwrite(Version), halt().' -noshell
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
