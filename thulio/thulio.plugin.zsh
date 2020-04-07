@@ -174,3 +174,7 @@ fi
 alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | egrep '.ex|.exs|.eex' | xargs mix format"
 
 export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
+
+if [[ $(uname -s) -eq "Darwin" ]]; then
+    export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(/usr/local/bin/brew --prefix openssl)"
+fi
