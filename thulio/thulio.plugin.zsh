@@ -144,6 +144,17 @@ function erlang_version() {
     erl -eval '{ok, Version} = file:read_file(filename:join([code:root_dir(), "releases", erlang:system_info(otp_release), "OTP_VERSION"])), io:fwrite(Version), halt().' -noshell
 }
 
+function kube() {
+    if  hash kubectl &> /dev/null; then
+        source <(kubectl completion zsh)
+    fi
+
+    if [[ -d "${HOME}/projects/github/kubernetes-tools" ]]; then
+        source ${HOME}/projects/github/kubernetes-tools/completion/__completion
+        export PATH=${PATH}:${HOME}/projects/github/kubernetes-tools/bin
+    fi
+}
+
 alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
