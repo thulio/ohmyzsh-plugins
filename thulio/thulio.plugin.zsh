@@ -7,25 +7,12 @@ function update_github () {
     cd $HOME
 }
 
-function update_vim () {
-    nvim -i NONE -c PlugUpdate -c quital
-
-}
-
-function ssh-append-key {
-    cat ~/.ssh/id_rsa.pub | ssh $1@$2 'cat >> .ssh/authorized_keys'
-}
-
 function setup-tunnel {
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -C2qTnN -D 8080 $1 -p ${2:-22}
 }
 
 function setup-proxy {
     ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -C2qTnN -L 8080:127.0.0.1:3128 $1
-}
-
-function parse_git_branch {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(git::\1)/'
 }
 
 maiores () {
@@ -42,11 +29,6 @@ function xindent {
     xmlindent -f -nbe $*
 }
 
-function clone_site {
-    # Usage: clone_site domains_to_keep url
-    wget --mirror --convert-links -w 4 $1
-}
-
 function from_timestamp {
     date --date=@$1
 }
@@ -55,47 +37,8 @@ function unquarentine {
     find . -type f -print0 | xargs -0 xattr -d com.apple.quarantine
 }
 
-function clear_zsh_history {
-    ## Script to accumulate unique .zsh_history entries in ~/.allhistory
-    (cat $HOME/.zsh_history | sed -e 's/[^;]*;//' && cat $HOME/.allhistory) | sort | uniq >   $HOME/.allhistory.new
-    rm $HOME/.allhistory
-    mv $HOME/.allhistory.new $HOME/.allhistory
-}
-
 function unswap {
     sudo swapoff -a && sudo swapon -a
-}
-
-function flip_the_table {
-    cat <<EOF
-(╯°□°）╯︵ ┻━┻
-EOF
-}
-
-function chillout {
-    cat <<EOF
-┬─┬ノ( º _ ºノ)
-EOF
-}
-
-function shrugs {
-    cat <<EOF
-¯\_(ツ)_/¯
-EOF
-}
-
-function lenny {
-    cat <<EOF
-( ͡° ͜ʖ ͡°)
-EOF
-}
-
-function connect_to_remote_docker {
-    if [ "$#" -ne 4 ]; then
-        echo "Usage: connect_to_remote_docker HOST_USER HOST_IP CONTAINER_USER CONTAINER_IP"
-    else
-        ssh -o ProxyCommand="ssh  $1@$2  nc %h %p" $3@$4
-    fi
 }
 
 function create_checksums {
@@ -104,9 +47,9 @@ function create_checksums {
 
 function docker_update_images {
     if [[ $(uname -s) -eq "Darwin" ]]; then
-        docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -n 1 docker pull
+        docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | sort | xargs -n 1 docker pull
     else
-        docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | xargs -r -n 1 docker pull
+        docker images | grep -v REPOSITORY | grep -v none | awk '{print $1":"$2};' | sort | xargs -r -n 1 docker pull
     fi
 }
 
