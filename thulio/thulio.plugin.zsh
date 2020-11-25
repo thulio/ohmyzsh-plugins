@@ -33,10 +33,6 @@ function from_timestamp {
     date --date=@$1
 }
 
-function unquarentine {
-    find . -type f -print0 | xargs -0 xattr -d com.apple.quarantine
-}
-
 function unswap {
     sudo swapoff -a && sudo swapon -a
 }
@@ -80,7 +76,6 @@ function tcr-make() {
 
 function clean_docker() {
     docker system prune -f --volumes
-    docker run --rm --privileged --pid=host justincormack/nsenter1 /sbin/fstrim /var/lib/docker
 }
 
 function erlang_version() {
@@ -98,19 +93,9 @@ function kube() {
     fi
 }
 
-function gcp {
-    # The next line updates PATH for the Google Cloud SDK.
-    if [ -f "${HOME}/google-cloud-sdk/path.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/path.zsh.inc"; fi
-
-    # The next line enables shell command completion for gcloud.
-    if [ -f "${HOME}/google-cloud-sdk/completion.zsh.inc" ]; then . "${HOME}/google-cloud-sdk/completion.zsh.inc"; fi
-}
-
-alias json='python -mjson.tool | pygmentize -f terminal256 -l javascript -O style=native'
 alias start-redis="redis-server /usr/local/etc/redis.conf"
 alias start-mongodb="mongod run --config $HOME/.mongod.conf"
 alias start-mysql="sudo /usr/bin/mysqld_safe --datadir='/var/lib/mysql'"
-alias pinstall="pip install -M"
 alias ssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ServerAliveInterval=120"
 alias ll='ls -lh'
 alias m0="mplayer -idx -volume 0"
@@ -125,7 +110,4 @@ fi
 alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | egrep '.ex|.exs|.eex' | xargs mix format"
 
 export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
-
-if [[ $(uname -s) -eq "Darwin" ]]; then
-    export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(/usr/local/bin/brew --prefix openssl)"
-fi
+export KERL_BUILD_DOCS=yes
