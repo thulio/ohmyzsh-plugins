@@ -108,6 +108,7 @@ if [ "$(uname -s)" = "Linux" ] ; then
 fi
 
 alias mix_format_modified="(git clean --dry-run | awk '{print $3;}' && git ls-files -m) | egrep '.ex|.exs|.eex' | xargs mix format"
+alias my_ip="dig @ns1.google.com TXT o-o.myaddr.l.google.com +short"
 
 export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
 export KERL_BUILD_DOCS=yes
